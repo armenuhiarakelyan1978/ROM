@@ -4,6 +4,7 @@ reg rst;
 reg [3:0]address;
 wire [3:0]data_out;
 reg read;
+integer fd, i;
 
 
 rom rom_i(.clk(clk),
@@ -37,5 +38,18 @@ begin
 	begin
 	     #15  address = address+1;
 	end
+end
+initial
+begin
+	#20;
+	fd = $fopen("./mm.txt","w");
+	#10 repeat(15) #1 
+	for(i=0; i<16; i = i+1)
+	begin
+		$fwrite(fd,"%b\n  ",i);
+	end
+
+	$fclose(fd);
+	#10;
 end
 endmodule
